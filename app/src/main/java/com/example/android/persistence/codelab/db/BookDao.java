@@ -59,6 +59,8 @@ public interface BookDao {
     )
     List<Book> findBooksBorrowedByNameSync(String userName);
 
+
+
     @Query("SELECT * FROM Book " +
             "INNER JOIN Loan ON Loan.book_id LIKE Book.id " +
             "WHERE Loan.user_id LIKE :userId "
@@ -86,7 +88,7 @@ public interface BookDao {
     List<Book> findAllBooksSync();
 
     @Insert(onConflict = IGNORE)
-    void insertBook(Book book);
+    void insertBook(Book... books);
 
     @Update(onConflict = REPLACE)
     void updateBook(Book book);

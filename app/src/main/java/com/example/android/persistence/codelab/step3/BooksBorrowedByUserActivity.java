@@ -16,14 +16,17 @@
 
 package com.example.android.persistence.codelab.step3;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.codelabs.persistence.R;
+import com.example.android.persistence.codelab.Logger;
 import com.example.android.persistence.codelab.db.Book;
 
 import java.util.List;
@@ -56,10 +59,20 @@ public class BooksBorrowedByUserActivity extends AppCompatActivity {
     private void subscribeUiBooks() {
         // TODO: refresh the list of books when there's new data
         // mViewModel.books.observe(...
+
+        mViewModel.books.observe(this, new Observer<List<Book>>()
+        {
+            @Override
+            public void onChanged(@Nullable List<Book> books)
+            {
+                showBooksInUi(books);
+            }
+        });
     }
 
     @SuppressWarnings("unused")
     private void showBooksInUi(final @NonNull List<Book> books) {
+        Logger.logDebug("Vitali", books.toString());
         StringBuilder sb = new StringBuilder();
 
         for (Book book : books) {

@@ -27,13 +27,13 @@ import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
 
 @Dao
 public interface UserDao {
-    @Query("select * from user")
+    @Query("select * from User")
     List<User> loadAllUsers();
 
-    @Query("select * from user where id = :id")
+    @Query("select * from User where id = :id")
     User loadUserById(int id);
 
-    @Query("select * from user where name = :firstName and lastName = :lastName")
+    @Query("select * from User where name = :firstName and lastName = :lastName")
     List<User> findUserByNameAndLastName(String firstName, String lastName);
 
     @Insert(onConflict = IGNORE)
@@ -51,7 +51,7 @@ public interface UserDao {
     @Delete
     void deleteUsers(User user1, User user2);
 
-    @Query("SELECT * FROM User WHERE :age == :age") // TODO: Fix this!
+    @Query("SELECT * FROM User WHERE age < :age") // TODO: Fix this!
     List<User> findUsersYoungerThan(int age);
 
     @Query("SELECT * FROM User WHERE age < :age")

@@ -28,17 +28,21 @@ import com.example.android.persistence.codelab.db.Book;
 import com.example.android.persistence.codelab.db.utils.DatabaseInitializer;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
-public class JankShowUserActivity extends AppCompatActivity {
+public class JankShowUserActivity extends AppCompatActivity
+{
 
     private AppDatabase mDb;
 
     private TextView mBooksTextView;
 
     private static void showListInUI(final @NonNull List<Book> books,
-                                     final TextView booksTextView) {
+                                     final TextView booksTextView)
+    {
         StringBuilder sb = new StringBuilder();
-        for (Book book : books) {
+        for (Book book : books)
+        {
             sb.append(book.title);
             sb.append("\n");
         }
@@ -46,7 +50,8 @@ public class JankShowUserActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.db_activity);
@@ -62,22 +67,39 @@ public class JankShowUserActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         AppDatabase.destroyInstance();
         super.onDestroy();
     }
 
-    private void populateDb() {
-        DatabaseInitializer.populateSync(mDb);
+    private void populateDb()
+    {
+        //DatabaseInitializer.populateSync(mDb);
+        //DatabaseInitializer.populateAsync(mDb);
+
+        Executors.newSingleThreadExecutor()
+                .execute(new Runnable()
+                         {
+                             @Override
+                             public void run()
+                             {
+                                 DatabaseInitializer.populateWithTestData(mDb);
+                             }
+                         }
+                );
+
     }
 
-    private void fetchData() {
+    private void fetchData()
+    {
         // This activity is executing a query on the main thread, making the UI perform badly.
         List<Book> books = mDb.bookModel().findBooksBorrowedByNameSync("Mike");
         showListInUI(books, mBooksTextView);
     }
 
-    public void onRefreshBtClicked(View view) {
+    public void onRefreshBtClicked(View view)
+    {
         mBooksTextView.setText("");
         fetchData();
     }

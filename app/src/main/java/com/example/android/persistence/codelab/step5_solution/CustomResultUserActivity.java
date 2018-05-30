@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.codelabs.persistence.R;
+import com.example.android.persistence.codelab.Logger;
 
 
 public class CustomResultUserActivity extends AppCompatActivity {
@@ -56,6 +57,7 @@ public class CustomResultUserActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable final String result) {
                 mBooksTextView.setText(result);
+                Logger.logDebug("Vitali", "Observer<String> changed");
             }
         });
     }

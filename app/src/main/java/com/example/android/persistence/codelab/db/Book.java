@@ -27,4 +27,10 @@ public class Book {
     public String id;
 
     public String title;
+
+    @Override
+    public String toString()
+    {
+        return "id= "+id + " title = "+title;
+    }
 }

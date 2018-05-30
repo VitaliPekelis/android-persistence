@@ -16,11 +16,10 @@
 
 package com.example.android.persistence.codelab.db;
 
-import android.content.Context;
-
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 @Database(entities = {User.class, Book.class, Loan.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
@@ -36,11 +35,17 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInMemoryDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
+                    //Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
+                    Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "name.db")
+
+
+
+
                     // To simplify the codelab, allow queries on the main thread.
                     // Don't do this on a real app! See PersistenceBasicSample for an example.
                     .allowMainThreadQueries()
                     .build();
+
         }
         return INSTANCE;
     }

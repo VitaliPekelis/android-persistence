@@ -73,7 +73,7 @@ public class DatabaseInitializer {
         return user;
     }
 
-    private static void populateWithTestData(AppDatabase db) {
+    public static void populateWithTestData(AppDatabase db) {
         db.loanModel().deleteAll();
         db.userModel().deleteAll();
         db.bookModel().deleteAll();
@@ -107,7 +107,7 @@ public class DatabaseInitializer {
             addLoan(db, "5", user2, book4, lastWeek, today);
             Log.d("DB", "Added loans");
 
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
